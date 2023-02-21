@@ -9,15 +9,13 @@ import sunrise from "./img/sunrise_1.svg";
 import sunset from "./img/sunset.svg";
 // @ts-ignore
 import debounce from 'lodash/debounce';
-import {fetchWeather} from "../store"
+import {fetchWeathers} from "../store/slice"
 import {useSelector, useDispatch} from "react-redux"
 import {getWeatherSelector} from "../store";
 import {getCurrentTime} from "./common/date/date"
+import {Params} from "../types/params";
 
-interface Params {
-    q: string;
-    units: string
-}
+
 const units = [
     {value: "metric", label: "Metric, °C"},
     {value: "standard", label: "Standard, K"},
@@ -36,7 +34,7 @@ export const App = () => {
     const weatherSelector = useSelector(getWeatherSelector)
 
     const fetchWeatherDebounced = useCallback(debounce((params: Params): void =>
-        dispatch(fetchWeather(params) as any), 2_000), [dispatch]);
+        dispatch(fetchWeathers(params) as any), 2_000), [dispatch]);
 
     useEffect(() => fetchWeatherDebounced(params), [params]);
 
